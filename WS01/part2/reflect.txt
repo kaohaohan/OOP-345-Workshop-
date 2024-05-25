@@ -1,0 +1,44 @@
+The difference between internal and external linkage citing examples from your code and what are static variables and how are they useful in your solution.
+Answer:
+External linkage allows a symbol to be shared across different translation units. In my FoodOrder 
+
+// FoodOrder.h
+namespace seneca {
+    extern double g_taxrate;
+    extern double g_dailydiscount;
+}
+
+// FoodOrder.cpp
+namespace seneca {
+    double g_taxrate = 0.0;
+    double g_dailydiscount = 0.0;
+}
+g_taxrate and g_dailydiscount are declared with external linkage, meaning they can be accessed from other files that include the header.
+
+
+Internal linkage restricts a symbol to its own translation unit, making it invisible to other files. This is achieved using the static keyword. For instance, in my FoodOrder::display function:
+
+void FoodOrder::display() const {
+    static int counter = 0; // Internal linkage
+    ++counter;
+    // display logic
+}
+
+The static int counter = 0; inside FoodOrder::display is a static local variable. 
+It retains its value across multiple calls to display, counting how many times the function is called, but is only accessible within display. This demonstrates internal linkage, where counter persists across function calls but remains invisible outside the function.
+
+The changes that you made in upgrading your FoodOrder class in part 2.
+Answer: 
+In Part 2, I made several significant changes to the FoodOrder class. First, I changed the member variable m_orderDescription to char* and initialized it to nullptr to handle dynamic memory allocation (DMA). Additionally, I implemented the Rule of Three to manage DMA correctly, including the copy constructor, copy assignment operator, and destructor:
+
+Copy Constructor: FoodOrder::FoodOrder(const FoodOrder& other)
+Copy Assignment Operator: FoodOrder& FoodOrder::operator=(const FoodOrder& other)
+Destructor: FoodOrder::~FoodOrder()
+Furthermore, I modified the logic in read(std::istream& is). I used a temporary buffer char tempDescription[256] = {0}; to read the file content. If the length of tempDescription is greater than 0, I set the order description using setOrderDescription(tempDescription):
+
+cpp
+Copy code
+is.getline(tempDescription, 256, ',');
+if (strlen(tempDescription) > 0) {
+    setOrderDescription(tempDescription);
+}
