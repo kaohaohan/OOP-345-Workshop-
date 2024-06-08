@@ -75,10 +75,12 @@ namespace seneca{
     }
 
     string ProteinDatabase::operator[](size_t index) const{
-        if(index<numSequences){
+        if(index<numSequences && sequences){
             return sequences[index];
+        } else {
+            return "";
         }
-        return "";
+
     } 
     
     // rule of three
@@ -113,6 +115,19 @@ namespace seneca{
         return *this;
 
     }
+    ProteinDatabase::ProteinDatabase(ProteinDatabase && p){
+        *this =std::move(p);
+     }
+    ProteinDatabase &ProteinDatabase::operator=(ProteinDatabase&& p){
+        if(this!= &p){
+            delete[] sequences;
+            sequences = p.sequences;
+            p.sequences =nullptr;
+            numSequences= p.numSequences;
+        }
+        return *this;
+    }
+
 
     
 }

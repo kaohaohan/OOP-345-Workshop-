@@ -25,7 +25,7 @@ public:
     ProteinDatabase(const ProteinDatabase& filename);
     ProteinDatabase &operator=(const ProteinDatabase& p);
     //rule of five
-    ProteinDatabase(ProteinDatabase && n);
+    ProteinDatabase(ProteinDatabase && p);
     ProteinDatabase &operator=(ProteinDatabase&& p);
  
 };

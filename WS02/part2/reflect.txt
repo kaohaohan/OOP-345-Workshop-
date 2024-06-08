@@ -1,0 +1,29 @@
+In this workshop, I learned how to implement the move constructor and move assignment operator in C++. These operations are crucial for efficient resource management, allowing resources to be transferred without the overhead of copying. 
+
+The move constructor for the ProteinDatabase class is implemented as follows:
+
+ProteinDatabase::ProteinDatabase(ProteinDatabase && p) {
+    *this = std::move(p);
+}
+
+And the move assignment operator:
+
+ProteinDatabase& ProteinDatabase::operator=(ProteinDatabase&& p) {
+    if (this != &p) {
+        delete[] sequences;
+        sequences = p.sequences;
+        p.sequences = nullptr;
+        numSequences = p.numSequences;
+    }
+    return *this;
+}
+
+The significant time difference between copy and move operations is due to the fact that copy operations involve creating a complete duplicate of the source object, including memory allocation and data copying. In contrast, move operations simply transfer the ownership of the resource pointers, avoiding unnecessary deep copies.
+
+Challenges I faced included understanding when and how to use std::move to enable move operations. Using std::move in the move constructor ensures that resources are efficiently transferred:
+
+ProteinDatabase::ProteinDatabase(ProteinDatabase && p) {
+    *this = std::move(p);
+}
+
+This workshop enhanced my understanding of resource management and performance optimization in C++, which will be beneficial for future projects.
