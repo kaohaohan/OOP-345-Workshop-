@@ -1,3 +1,12 @@
+/*
+    Name: Hao Han Kao
+    Seneca Email: hhao@myseneca.ca
+    Seneca Student ID: 151604220
+    Date: 6/9
+
+    I have done all the coding by myself and only copied the code that my professor provided to complete my workshops and assignments.
+*/
+
 #ifndef SENECA_CONFIRMATIONSENDER_H
 #define SENECA_CONFIRMATIONSENDER_H
 #include "Reservation.h"

@@ -1,0 +1,55 @@
+Reflect of copy operator in workshop4 :
+Shallow Copy:
+
+Only copies the pointers, not the actual data they point to.
+Multiple objects share the same memory.
+Example: ConfirmationSender class uses shallow copy since it only manages pointers to Reservation objects which are handled elsewhere.
+Deep Copy:
+
+Copies both the pointers and the actual data they point to.
+Each object has its own independent copy of the data.
+Example: Restaurant class uses deep copy since it manages the full lifecycle of Reservation objects, ensuring each Restaurant object has its own independent data.
+Challenges and Solutions
+Shallow Copy Implementation:
+
+Challenge: Avoid memory management issues with shared resources.
+Solution: In ConfirmationSender, the copy assignment operator copies the pointers, not the objects themselves.
+cpp
+Copy code
+ConfirmationSender &ConfirmationSender::operator=(const ConfirmationSender &other) {
+    if (this != &other) {
+        delete[] reservations;
+        count = other.count;
+        reservations = new const Reservation *[count];
+        for (size_t i = 0; i < count; ++i) {
+            reservations[i] = other.reservations[i]; // Shallow copy
+        }
+    }
+    return *this;
+}
+Deep Copy Implementation:
+
+Challenge: Ensure each object has its own copy of the data to avoid shared memory issues.
+Solution: In Restaurant, the copy assignment operator creates new Reservation objects for each element.
+cpp
+Copy code
+Restaurant &Restaurant::operator=(const Restaurant &other) {
+    if (this != &other) {
+        for (size_t i = 0; i < nums; ++i) {
+            delete reservations[i];
+        }
+        delete[] reservations;
+        
+        nums = other.nums;
+        reservations = new Reservation *[nums];
+        for (size_t i = 0; i < nums; ++i) {
+            reservations[i] = new Reservation(*other.reservations[i]); // Deep copy
+        }
+    }
+    return *this;
+}
+Summary
+Understanding the difference between shallow and deep copy is crucial in C++ for proper memory management. 
+Shallow copy is efficient but can lead to shared resource issues, while deep copy ensures each object is independent at the cost of additional memory usage. 
+Implementing these correctly in ConfirmationSender and Restaurant classes helped manage resources effectively and prevent memory leaks.
+
